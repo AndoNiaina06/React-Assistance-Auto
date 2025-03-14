@@ -4,43 +4,34 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AdminHome from "./pages/admin/AdminHome.jsx";
 import UserHome from "./pages/user/UserHome.jsx";
+import AdminCar from "./pages/admin/AdminCar.jsx";
 
 const App = () => {
-    const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        // Vérifier si l'utilisateur est connecté
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
-
-    // Route protégée : redirige si pas connecté
-    const ProtectedRoute = ({ children, role }) => {
-        if (!user) {
-            return <Navigate to="/" />;
-        }
-        if (role && user.role !== role) {
-            return <Navigate to="/" />;
-        }
-        return children;
+    const isAuthenticated = () => {
+        console.log("isAuthenticated 1");
+        return localStorage.getItem('token') !== null;
     };
-    if (user) {
-        if (user.role === 'admin') {
-            return <Navigate to="/admin-dashboard" />;
-        } else {
-            return <Navigate to="/user-dashboard" />;
-        }
-    }
 
     return (
         <Router>
             <Routes>
+
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/admin-dashboard" element={<AdminHome />} />
-                <Route path="/user-dashboard" element={<UserHome />} />
+
+                <Route
+                    path="/admin-dashboard"
+                    element={isAuthenticated() ? <AdminHome /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/user-dashboard"
+                    element={isAuthenticated() ? <UserHome /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/car-list"
+                    element={isAuthenticated() ? <AdminCar /> : <Navigate to="/" />}
+                />
             </Routes>
         </Router>
     );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 import api from "../services/axios";
@@ -9,15 +9,18 @@ const Login = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(""); // Réinitialise l'erreur
+        setError("");
+        window.onload;
 
         try {
             const response = await api.post("/login", { email, password });
 
             if (response.status === 200) {
-                // Vérification du rôle
+                localStorage.setItem("token", response.data.token);
+
                 if (response.data.data.role === 'admin') {
                     console.log("Vous êtes authentifié", response.data.data.fname);
                     navigate("/admin-dashboard");
