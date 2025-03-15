@@ -2,30 +2,14 @@ import { useState, useEffect } from "react";
 import { LuBell, LuUserRound, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/axios.js";
+import {useSelector} from "react-redux";
 
 const AdminHeader = () => {
     const [showMenu, setShowMenu] = useState(false);
-    const [userName, setUserName] = useState("");
     const navigate = useNavigate();
+    const userState = useSelector(state => state.user);
+    const user = userState.user;
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const fetchUserProfile = async () => {
-                try {
-                    const response = await api.get('/userProfile', {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-                    setUserName(response.data.fname);
-                } catch (error) {
-                    console.error("Erreur lors de la récupération du profil utilisateur", error);
-                    navigate("/");
-                }
-            };
-
-            fetchUserProfile();
-        }
-    }, []);
 
     const logout = async () => {
         const token = localStorage.getItem("token");
@@ -46,7 +30,7 @@ const AdminHeader = () => {
 
     return (
         <header className="bg-white ml-60 text-black shadow-md px-6 py-7 flex justify-between items-center">
-            <h1 className="text-xl font-bold">{userName}</h1>
+            <h1 className="text-xl font-bold">{user?.lname || ""}</h1>
 
             <div className="flex items-center space-x-6">
                 <div className="relative bg-gray-300 p-2 rounded-3xl">
