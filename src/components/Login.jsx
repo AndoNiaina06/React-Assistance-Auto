@@ -13,8 +13,6 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
-        window.onload;
-
         try {
             const response = await api.post("/login", { email, password });
 

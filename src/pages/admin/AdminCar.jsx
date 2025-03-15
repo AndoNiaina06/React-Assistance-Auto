@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNavigation from "../../components/admin/AdminNavigation.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import api from "../../services/axios.js";
-import { FaPen, FaTrash } from "react-icons/fa"; // Icônes d'édition et de suppression
+import { FaPen, FaTrash } from "react-icons/fa";
 
 const AdminCar = () => {
     //state

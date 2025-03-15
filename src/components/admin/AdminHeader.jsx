@@ -19,6 +19,7 @@ const AdminHeader = () => {
                     setUserName(response.data.fname);
                 } catch (error) {
                     console.error("Erreur lors de la récupération du profil utilisateur", error);
+                    navigate("/");
                 }
             };
 
