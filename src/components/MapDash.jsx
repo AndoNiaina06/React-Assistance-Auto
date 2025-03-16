@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export default function MapView() {
-    const [position, setPosition] = useState([48.8566, 2.3522]);
+    const [position, setPosition] = useState([-21.4607787, 47.106983]);
 
     useEffect(() => {
         if ("geolocation" in navigator) {

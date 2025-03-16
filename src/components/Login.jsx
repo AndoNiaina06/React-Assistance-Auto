@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa6";
 import api from "../services/axios";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false); // État pour le chargement
     const navigate = useNavigate();
-
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
+        setLoading(true); // Active le chargement
+
         try {
             const response = await api.post("/login", { email, password });
 
@@ -21,16 +24,22 @@ const Login = () => {
 
                 if (response.data.data.role === 'admin') {
                     console.log("Vous êtes authentifié", response.data.data.fname);
-                    navigate("/admin-dashboard");
+                    setTimeout(()=>{
+                        navigate("/admin-dashboard");
+                    },2000);
                 } else if (response.data.data.role === 'user') {
                     console.log("Vous êtes authentifié", response.data.data.fname);
-                    navigate("/user-dashboard");
+                    setTimeout(()=>{
+                        navigate("/user-dashboard");
+                },2000);
                 }
             }
         } catch (err) {
             console.error("Erreur lors de l'authentification :", err.response?.data);
-
-            setError(err.response?.data?.msg || err.response?.data?.message || "Erreur de connexion");
+            setTimeout(()=>{
+                setError(err.response?.data?.msg || err.response?.data?.message || "Erreur de connexion");
+                setLoading(false);
+            },1000);
         }
     };
 
@@ -50,8 +59,16 @@ const Login = () => {
                         <input type="password" placeholder="Mot de passe" className="w-full pl-10 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
                                onChange={(e) => setPassword(e.target.value)} required />
                     </div>
-                    <button type="submit" className="w-full bg-blue-500 text-white font-sans text-lg p-2 rounded-[25px] hover:bg-blue-600 transition">
-                        Sign in
+                    <button type="submit" disabled={loading}
+                            className={`w-full text-white font-sans text-lg p-2 rounded-[25px] transition 
+                        ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}`}>
+                        {loading ? (
+                            <div className="flex items-center justify-center">
+                                <FaSpinner className="animate-spin mr-2" />
+                            </div>
+                        ) : (
+                            "Sign in"
+                        )}
                     </button>
                 </form>
                 <p className="text-center text-gray-600 mt-4">Forgot Password ? <span className="text-blue-500 cursor-pointer">Reset</span></p>
