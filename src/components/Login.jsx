@@ -25,7 +25,7 @@ const Login = () => {
           navigate("/admin-dashboard");
         } else if (response.data.data.role === "user") {
           console.log("Vous êtes authentifié", response.data.data.fname);
-          navigate("/add-car"); // Redirection vers /add-car pour les users
+          navigate("/user-dashboard"); // Redirection vers /add-car pour les users
         }
       }
     } catch (err) {

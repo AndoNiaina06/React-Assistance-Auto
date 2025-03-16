@@ -8,7 +8,7 @@ import {
   FaHome,
 } from "react-icons/fa";
 
-const AdminNavigation = () => {
+const UserNavigation = () => {
   return (
     <nav className="w-60 bg-gray-100 shadow-md h-screen fixed flex flex-col p-6 text-black">
       <div className="flex flex-row">
@@ -23,7 +23,7 @@ const AdminNavigation = () => {
         <ul className="flex flex-col space-y-2">
           <li>
             <a
-              href="admin-dashboard"
+              href="user-dashboard"
               className="flex items-center font-semibold text-gray-800 space-x-3 px-3 py-2 rounded-lg  hover:bg-blue-200"
             >
               <FaHome className="text-2xl text-[#3D3BF3]" />
@@ -48,11 +48,11 @@ const AdminNavigation = () => {
         <ul className="flex flex-col space-y-2">
           <li>
             <a
-              href="/car-list_admin"
+              href="/car-list_user"
               className="flex items-center space-x-3 px-3 py-2 rounded-lg font-semibold text-gray-800 hover:bg-blue-200"
             >
               <FaCar className="text-2xl text-[#3D3BF3]" />
-              <span>CarsAdmin</span>
+              <span>CarsUSER</span>
             </a>
           </li>
           <li>
@@ -84,11 +84,20 @@ const AdminNavigation = () => {
           </li>
           <li>
             <a
-              href="/AdminListIntervention"
+              href="/add-car"
               className="flex items-center space-x-3 px-3 py-2 rounded-lg font-semibold text-gray-800 hover:bg-blue-200"
             >
               <FaChartBar className="text-2xl text-[#3D3BF3]" />
-              <span>Inventaire</span>
+              <span>Add card</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="/UserListIntervention"
+              className="flex items-center space-x-3 px-3 py-2 rounded-lg font-semibold text-gray-800 hover:bg-blue-200"
+            >
+              <FaChartBar className="text-2xl text-[#3D3BF3]" />
+              <span>Voir la demande</span>
             </a>
           </li>
         </ul>
@@ -97,4 +106,4 @@ const AdminNavigation = () => {
   );
 };
 
-export default AdminNavigation;
+export default UserNavigation;

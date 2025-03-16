@@ -49,7 +49,7 @@ const Register = () => {
 
       if (response.status === 201) {
         console.log("Inscription réussie :", response.data);
-        navigate("/login");
+        navigate("/");
       }
     } catch (err) {
       if (err.response && err.response.status === 422) {
