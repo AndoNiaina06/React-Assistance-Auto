@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaSearch, FaUser, FaCar, FaCalendarAlt, FaTruck } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import AdminNavigation from "../../components/admin/AdminNavigation.jsx";
@@ -10,6 +10,7 @@ const AdminIntervention = () => {
     const [interventions, setInterventions] = useState([]);
     const [filteredInterventions, setFilteredInterventions] = useState([]);
     const [statusFilter, setStatusFilter] = useState("all");
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -26,14 +27,20 @@ const AdminIntervention = () => {
     }, []);
 
     useEffect(() => {
-        if (statusFilter === "all") {
-            setFilteredInterventions(interventions);
-        } else {
-            setFilteredInterventions(interventions.filter(intervention => intervention.status === statusFilter));
+        let filtered = interventions;
+        if (statusFilter !== "all") {
+            filtered = filtered.filter(intervention => intervention.status === statusFilter);
         }
-    }, [statusFilter, interventions]);
+        if (search) {
+            filtered = filtered.filter(intervention =>
+                intervention.user.fname.toLowerCase().includes(search.toLowerCase()) ||
+                intervention.user.lname.toLowerCase().includes(search.toLowerCase()) ||
+                intervention.car.carname.toLowerCase().includes(search.toLowerCase())
+            );
+        }
+        setFilteredInterventions(filtered);
+    }, [statusFilter, search, interventions]);
 
-    // Fonction pour changer le statut de initio → in progress
     const startIntervention = (id, userId, carId) => {
         const token = localStorage.getItem("token");
         api.put(`interventions/${id}`, {
@@ -44,7 +51,6 @@ const AdminIntervention = () => {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(() => {
-                // Mise à jour du statut localement
                 setInterventions(interventions.map(intervention =>
                     intervention.id === id ? { ...intervention, status: "in progress" } : intervention
                 ));
@@ -58,71 +64,102 @@ const AdminIntervention = () => {
         <div>
             <AdminNavigation />
             <AdminHeader />
-            <div className="ml-64 mt-6 mr-6 p-8 bg-gray-200 shadow-lg rounded-xl">
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Interventions</h3>
 
-                <select
-                    className="mb-4 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                    <option value="all">All</option>
-                    <option value="initio">Initio</option>
-                    <option value="in progress">In Progress</option>
-                    <option value="finished">Finished</option>
-                </select>
+            <div className="ml-64 mt-6 mr-6 p-8 bg-gray-100">
+                <div className="bg-white p-6 rounded-2xl shadow-xl">
+                    {/* En-tête et recherche */}
+                    <div className="mb-8 border-b border-gray-200 pb-6">
+                        <h1 className="text-3xl font-bold text-gray-800 flex items-center mb-4">
+                            <FaTruck className="mr-3 text-blue-500" />
+                            List of interventions
+                        </h1>
+                        <div className="flex gap-4">
+                            <div className="relative flex-1 max-w-md">
+                                <FaSearch className="absolute top-4 left-3 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Search Intervention..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-300"
+                                />
+                            </div>
+                            <select
+                                className="px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-300"
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value)}
+                            >
+                                <option value="all">All statuts</option>
+                                <option value="initio">Initio</option>
+                                <option value="in progress">in Progress</option>
+                                <option value="finished">Finished</option>
+                            </select>
+                        </div>
+                    </div>
 
-                {/* Tableau des interventions */}
-                <table className="min-w-full bg-white border rounded-lg overflow-hidden shadow-md">
-                    <thead className="bg-blue-700 text-white">
-                    <tr>
-                        <th className="px-6 py-3 text-left">Type</th>
-                        <th className="px-6 py-3 text-left">Date</th>
-                        <th className="px-6 py-3 text-left">Customer</th>
-                        <th className="px-6 py-3 text-left">Véhicule</th>
-                        <th className="px-6 py-3 text-left">Statut</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {filteredInterventions.length > 0 ? (
-                        filteredInterventions.map((intervention) => (
-                            <tr key={intervention.id} className="border-b hover:bg-gray-100 transition">
-                                <td className="px-6 py-2">{intervention.typeintervention}</td>
-                                <td className="px-6 py-2">{new Date(intervention.datedemand).toLocaleDateString()}</td>
-                                <td className="px-6 py-2">{intervention.user.fname} {intervention.user.lname}</td>
-                                <td className="px-6 py-2">{intervention.car.carname} - {intervention.car.immatriculation}</td>
-                                <td className="px-6 py-2 flex items-center space-x-2">
-                                    {intervention.status === "in progress" ? (
-                                        <>
-                                            <FaSpinner className="animate-spin text-blue-500" />
-                                            <span className="text-blue-500 font-semibold">In Progress</span>
-                                        </>
-                                    ) : intervention.status === "finished" ? (
-                                        <>
-                                            <FontAwesomeIcon icon={faCircleCheck} size="lg" className="text-green-500" />
-                                            <span className="text-green-500 font-semibold">Finished</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="bg-yellow-500 text-white px-3 py-1 rounded-lg">Initio</span>
+                    {/* Liste des interventions */}
+                    <div className="grid grid-cols-1 gap-4">
+                        {filteredInterventions.length > 0 ? (
+                            filteredInterventions.map((intervention) => (
+                                <div
+                                    key={intervention.id}
+                                    className="p-4 rounded-xl border border-gray-200 hover:border-blue-200 transition-all"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <h3 className="font-bold text-lg text-gray-800">
+                                                {intervention.typeintervention}
+                                            </h3>
+                                            <p className="text-sm text-gray-600 flex items-center mt-1">
+                                                <FaCalendarAlt className="mr-2 text-blue-400" />
+                                                {new Date(intervention.datedemand).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm text-gray-600 flex items-center">
+                                                <FaUser className="mr-2 text-blue-400" />
+                                                {intervention.user.fname} {intervention.user.lname}
+                                            </p>
+                                            <p className="text-sm text-gray-600 flex items-center mt-1">
+                                                <FaCar className="mr-2 text-blue-400" />
+                                                {intervention.car.carname} - {intervention.car.immatriculation}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 flex items-center justify-between">
+                                        <div>
+                                            {intervention.status === "in progress" ? (
+                                                <div className="flex items-center space-x-2">
+                                                    <FaSpinner className="animate-spin text-blue-500" />
+                                                    <span className="text-blue-500 font-semibold">in Progress</span>
+                                                </div>
+                                            ) : intervention.status === "finished" ? (
+                                                <div className="flex items-center space-x-2">
+                                                    <FontAwesomeIcon icon={faCircleCheck} size="lg" className="text-green-500" />
+                                                    <span className="text-green-500 font-semibold">Finished</span>
+                                                </div>
+                                            ) : (
+                                                <span className="bg-yellow-500 text-white px-3 py-1 rounded-lg">Initio</span>
+                                            )}
+                                        </div>
+                                        {intervention.status === "initio" && (
                                             <button
                                                 onClick={() => startIntervention(intervention.id, intervention.user.id, intervention.car.id)}
-                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg ml-2 transition"
+                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg transition"
                                             >
                                                 Start
                                             </button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="6" className="text-center py-4 text-gray-700">No intervention</td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
+                                        )}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-12 text-gray-500">
+                                No Intervention Found.
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

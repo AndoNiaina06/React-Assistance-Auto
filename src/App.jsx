@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -8,6 +8,8 @@ import AdminCar from "./pages/admin/AdminCar.jsx";
 import ProtectedRoutes from "./components/ProtectectRoute.jsx";
 import AdminCustomer from "./pages/admin/AdminCustomer.jsx";
 import AdminIntervention from "./pages/admin/AdminIntervention.jsx";
+import Message from "./pages/admin/Message.jsx";
+import AdminStat from "./pages/admin/AdminStat.jsx";
 
 
 const App = () => {
@@ -59,6 +61,22 @@ const App = () => {
                     element={
                         <ProtectedRoutes>
                             <AdminIntervention />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/messages"
+                    element={
+                        <ProtectedRoutes>
+                            <Message />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/statistics"
+                    element={
+                        <ProtectedRoutes>
+                            <AdminStat />
                         </ProtectedRoutes>
                     }
                 />

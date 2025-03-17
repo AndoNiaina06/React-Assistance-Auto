@@ -18,9 +18,9 @@ const AdminNavigation = () => {
         { name: "Cars", path: "/car-list", icon: <FaCar className="text-2xl text-[#3D3BF3]" /> },
         { name: "Customers", path: "/customers", icon: <FaUsers className="text-2xl text-[#3D3BF3]" /> },
         { name: "Schedules", path: "/schedules", icon: <FaCalendarAlt className="text-2xl text-[#3D3BF3]" /> },
-        { name: "Intervention", path: "/intervention", icon: <FaTruck className="text-2xl text-[#3D3BF3]" /> },
-        { name: "Service", path: "/service", icon: <FaScrewdriverWrench className="text-2xl text-[#3D3BF3]" /> },
-        { name: "Insurance", path: "/insurance", icon: <FaTicket className="text-2xl text-[#3D3BF3]" /> },
+        { name: "Interventions", path: "/intervention", icon: <FaTruck className="text-2xl text-[#3D3BF3]" /> },
+        { name: "Services", path: "/service", icon: <FaScrewdriverWrench className="text-2xl text-[#3D3BF3]" /> },
+        { name: "Insurances", path: "/insurance", icon: <FaTicket className="text-2xl text-[#3D3BF3]" /> },
         { name: "Statistics", path: "/statistics", icon: <FaChartBar className="text-2xl text-[#3D3BF3]" /> },
     ];
 
