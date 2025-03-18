@@ -10,6 +10,11 @@ import AdminCustomer from "./pages/admin/AdminCustomer.jsx";
 import AdminIntervention from "./pages/admin/AdminIntervention.jsx";
 import Message from "./pages/admin/Message.jsx";
 import AdminStat from "./pages/admin/AdminStat.jsx";
+import AdminService from "./pages/admin/AdminService.jsx";
+import AdminInsurance from "./pages/admin/AdminInsurance.jsx";
+import UserCar from "./pages/user/UserCar.jsx";
+import UserInsurance from "./pages/user/UserInsurance.jsx";
+import UserIntervention from "./pages/user/UserIntervention.jsx";
 
 
 const App = () => {
@@ -80,9 +85,48 @@ const App = () => {
                         </ProtectedRoutes>
                     }
                 />
+                <Route
+                    path="/service"
+                    element={
+                        <ProtectedRoutes>
+                            <AdminService />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/insurance"
+                    element={
+                        <ProtectedRoutes>
+                            <AdminInsurance />
+                        </ProtectedRoutes>
+                    }
+                />
+
                 {/*------------------------- User Route -----------------------*/}
-
-
+                <Route
+                    path="/mycar"
+                    element={
+                        <ProtectedRoutes>
+                            <UserCar />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/userinsurance"
+                    element={
+                        <ProtectedRoutes>
+                            <UserInsurance />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/userintervention"
+                    element={
+                        <ProtectedRoutes>
+                            <UserIntervention />
+                        </ProtectedRoutes>
+                    }
+                />
             </Routes>
         </Router>
     );

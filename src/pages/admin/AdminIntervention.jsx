@@ -11,6 +11,7 @@ const AdminIntervention = () => {
     const [filteredInterventions, setFilteredInterventions] = useState([]);
     const [statusFilter, setStatusFilter] = useState("all");
     const [search, setSearch] = useState("");
+    const [expandedInterventionId, setExpandedInterventionId] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -18,6 +19,7 @@ const AdminIntervention = () => {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then((response) => {
+                //onsole.log(response.data.data);
                 setInterventions(response.data.data);
                 setFilteredInterventions(response.data.data);
             })
@@ -103,7 +105,16 @@ const AdminIntervention = () => {
                             filteredInterventions.map((intervention) => (
                                 <div
                                     key={intervention.id}
-                                    className="p-4 rounded-xl border border-gray-200 hover:border-blue-200 transition-all"
+                                    className={`p-4 rounded-xl border transition-all cursor-pointer group ${
+                                        expandedInterventionId === intervention.id
+                                            ? 'border-blue-300 shadow-lg'
+                                            : 'border-gray-200 hover:border-blue-200'
+                                    }`}
+                                    onClick={() => {
+                                        setExpandedInterventionId(prev =>
+                                            prev === intervention.id ? null : intervention.id
+                                        );
+                                    }}
                                 >
                                     <div className="flex items-center justify-between">
                                         <div>
@@ -151,6 +162,16 @@ const AdminIntervention = () => {
                                             </button>
                                         )}
                                     </div>
+                                    {expandedInterventionId === intervention.id && (
+                                        <div className="mt-4 p-4 bg-gray-50 rounded-lg animate-slideDown">
+                                            <h4 className="text-sm font-semibold text-gray-600 mb-2">
+                                                Description :
+                                            </h4>
+                                            <p className="text-gray-700 leading-relaxed">
+                                                {intervention.description || "No description"}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             ))
                         ) : (

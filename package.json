@@ -23,6 +23,7 @@
     "laravel-echo": "^2.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.479.0",
+    "pdfmake": "^0.2.18",
     "pusher-js": "^8.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
