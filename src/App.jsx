@@ -8,13 +8,14 @@ import AdminCar from "./pages/admin/AdminCar.jsx";
 import ProtectedRoutes from "./components/ProtectectRoute.jsx";
 import AdminCustomer from "./pages/admin/AdminCustomer.jsx";
 import AdminIntervention from "./pages/admin/AdminIntervention.jsx";
-import Message from "./pages/admin/Message.jsx";
+import AdminMessage from "./pages/admin/AdminMessage.jsx";
 import AdminStat from "./pages/admin/AdminStat.jsx";
 import AdminService from "./pages/admin/AdminService.jsx";
 import AdminInsurance from "./pages/admin/AdminInsurance.jsx";
 import UserCar from "./pages/user/UserCar.jsx";
 import UserInsurance from "./pages/user/UserInsurance.jsx";
 import UserIntervention from "./pages/user/UserIntervention.jsx";
+import UserMessage from "./pages/user/UserMessage.jsx";
 
 
 const App = () => {
@@ -73,7 +74,7 @@ const App = () => {
                     path="/messages"
                     element={
                         <ProtectedRoutes>
-                            <Message />
+                            <AdminMessage />
                         </ProtectedRoutes>
                     }
                 />
@@ -124,6 +125,14 @@ const App = () => {
                     element={
                         <ProtectedRoutes>
                             <UserIntervention />
+                        </ProtectedRoutes>
+                    }
+                />
+                <Route
+                    path="/user-messages"
+                    element={
+                        <ProtectedRoutes>
+                            <UserMessage />
                         </ProtectedRoutes>
                     }
                 />

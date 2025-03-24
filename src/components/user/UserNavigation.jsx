@@ -7,8 +7,8 @@ const UserNavigation = () => {
 
     const navItems = [
         {
-            name: "Messages_user",
-            path: "/messages_user",
+            name: "Messages",
+            path: "/user-messages",
             icon: <FiMessageSquare className="text-xl" />,
         },
         {

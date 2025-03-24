@@ -5,7 +5,6 @@ import {faCircleCheck, faCircleExclamation} from "@fortawesome/free-solid-svg-ic
 import AdminNavigation from "../../components/admin/AdminNavigation.jsx";
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import api from "../../services/axios.js";
-import 'jspdf-autotable';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';

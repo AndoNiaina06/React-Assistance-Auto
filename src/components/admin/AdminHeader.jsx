@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { LuBell, LuUserRound, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/axios.js";
@@ -9,7 +9,6 @@ const AdminHeader = () => {
     const navigate = useNavigate();
     const userState = useSelector(state => state.user);
     const user = userState.user;
-
 
     const logout = async () => {
         const token = localStorage.getItem("token");
